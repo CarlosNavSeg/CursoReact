@@ -21,4 +21,6 @@ La de los tests, Jest recomendada.
 El empaquetado, que viene muy bien con las estructuras de datos tan complicadas que tenemos.
 La estructura de una aplicación react tendría que tener dentro de la carpeta del proyecto, las carpetas src y dist y el package.json y todas las config files.
 Lo más lógico a la hora de estructurar los componentes es hacerlo por componentes, que cada componente tenga su lógica, estilos y declaración.
-Ya hemos visto el lint para el formateo del código, ahora veremos prettier para los espaciados, la sangría y cosas similares. Una de estas herramientas sería prettier
+Ya hemos visto el lint para el formateo del código, ahora veremos prettier para los espaciados, la sangría y cosas similares. Una de estas herramientas sería prettier.
+El render es una de las herramientas que se utilizan para formar aplicaciones con React, ya que se encarga de darle forma a los componentes que diseñamos. Los componentes en React se pueden equiparar a las funciones en Javascript, reciben parámetros y devuelven el cálculo que se ha derivado de estos(datos, vista).
+Aunque existe el diseño por componentes clase, React recomienda que usemos los componentes funcionales.

@@ -4,7 +4,7 @@
   "description": "Curso react",
   "main": "index.js",
   "scripts": {
-    "start": "parcel index.html",
+    "start": "parcel index.jsx",
     "lint": "eslint --fix ./src/**/*.{js,jsx}",
     "format": "prettier --write \"*.{js,jsx,json,css}\""
   },
