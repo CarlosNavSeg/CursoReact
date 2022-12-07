@@ -28863,7 +28863,33 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"../node_modules/react-is/cjs/react-is.development.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"../node_modules/react-dom/client.js":[function(require,module,exports) {
+'use strict';
+
+var m = require('react-dom');
+if ("development" === 'production') {
+  exports.createRoot = m.createRoot;
+  exports.hydrateRoot = m.hydrateRoot;
+} else {
+  var i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+  exports.createRoot = function (c, o) {
+    i.usingClientEntryPoint = true;
+    try {
+      return m.createRoot(c, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+  exports.hydrateRoot = function (c, h, o) {
+    i.usingClientEntryPoint = true;
+    try {
+      return m.hydrateRoot(c, h, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+}
+},{"react-dom":"../node_modules/react-dom/index.js"}],"../node_modules/react-is/cjs/react-is.development.js":[function(require,module,exports) {
 /** @license React v16.13.1
  * react-is.development.js
  *
@@ -29922,7 +29948,85 @@ var define;
 	}
 }());
 
-},{}],"App/WishList/WishList.jsx":[function(require,module,exports) {
+},{}],"App/WishList/WishItem.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _react = _interopRequireWildcard(require("react"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
+var _classnames = _interopRequireDefault(require("classnames"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) { ; } } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+var WishItem = function WishItem(_ref) {
+  var done = _ref.done,
+    text = _ref.text,
+    id = _ref.id,
+    onDoneChange = _ref.onDoneChange;
+  var _useState = (0, _react.useState)(0),
+    _useState2 = _slicedToArray(_useState, 2),
+    age = _useState2[0],
+    setAge = _useState2[1];
+  (0, _react.useEffect)(function () {
+    var ageInterval;
+    if (done) {
+      setAge(0);
+    } else {
+      ageInterval = setInterval(function () {
+        if (done) {
+          clearInterval(ageInterval);
+        } else {
+          setAge(function (a) {
+            return a + 1;
+          });
+        }
+      }, 1000);
+    }
+    return function () {
+      return clearInterval(ageInterval);
+    };
+  }, [done]);
+  return /*#__PURE__*/_react.default.createElement("li", {
+    className: (0, _classnames.default)('wish-list__item', {
+      'wish-list__item--done': done,
+      'wish-list__item--warning': age >= 5 && age < 10,
+      'wish-list__item--danger': age >= 10
+    })
+  }, /*#__PURE__*/_react.default.createElement("input", {
+    id: id,
+    type: "checkbox",
+    checked: !!done,
+    onChange: function onChange(e) {
+      return onDoneChange(e.target.checked);
+    }
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: id
+  }, text));
+};
+WishItem.propTypes = {
+  done: _propTypes.default.bool,
+  text: _propTypes.default.string,
+  id: _propTypes.default.string,
+  onDoneChange: _propTypes.default.func
+};
+WishItem.defaultProps = {
+  done: false,
+  text: '',
+  id: '',
+  onDoneChange: function onDoneChange() {}
+};
+var _default = WishItem;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","classnames":"../node_modules/classnames/index.js"}],"App/WishList/WishList.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29930,39 +30034,47 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
+var _WishItem = _interopRequireDefault(require("./WishItem"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 var WishList = function WishList(_ref) {
-  var wishes = _ref.wishes;
+  var wishes = _ref.wishes,
+    onWishesChange = _ref.onWishesChange;
   return /*#__PURE__*/_react.default.createElement("ul", {
     className: "wish-list"
-  }, wishes.map(function (_ref2) {
+  }, wishes.map(function (_ref2, i) {
     var text = _ref2.text,
       done = _ref2.done;
-    return /*#__PURE__*/_react.default.createElement("li", {
-      key: text,
-      className: (0, _classnames.default)('wish-list__item', {
-        'wish-list__item--done': done
-      })
-    }, /*#__PURE__*/_react.default.createElement("input", {
-      type: "checkbox",
-      checked: done
-    }), /*#__PURE__*/_react.default.createElement("label", null, text));
+    return /*#__PURE__*/_react.default.createElement(_WishItem.default, {
+      text: text,
+      done: done,
+      onDoneChange: function onDoneChange(value) {
+        var updatedWishes = _toConsumableArray(wishes);
+        updatedWishes[i].done = value;
+        onWishesChange(updatedWishes);
+      },
+      id: "wish".concat(i),
+      key: text
+    });
   }));
 };
 WishList.propTypes = {
-  wishes: _propTypes.default.arrayOf(_propTypes.default.shape({
-    done: _propTypes.default.bool,
-    text: _propTypes.default.string
-  }))
+  wishes: _propTypes.default.arrayOf(_propTypes.default.shape(_WishItem.default.propTypes)),
+  onWishesChange: _propTypes.default.func || _propTypes.default.arrayOf(_propTypes.default.shape(_WishItem.default.propTypes))
 };
 WishList.defaultProps = {
-  wishes: []
+  wishes: [],
+  onWishesChange: function onWishesChange() {}
 };
 var _default = WishList;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","classnames":"../node_modules/classnames/index.js","prop-types":"../node_modules/prop-types/index.js"}],"App/WishList/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","./WishItem":"App/WishList/WishItem.jsx"}],"App/WishList/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29996,7 +30108,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) { ; } } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-var wishes = [{
+var initialWishes = [{
   text: 'Travel to the moon',
   done: false
 }, {
@@ -30007,7 +30119,7 @@ var wishes = [{
   done: false
 }];
 var App = function App() {
-  var _useState = (0, _react.useState)(wishes),
+  var _useState = (0, _react.useState)(initialWishes),
     _useState2 = _slicedToArray(_useState, 2),
     wishes = _useState2[0],
     setWishes = _useState2[1];
@@ -30018,10 +30130,16 @@ var App = function App() {
       return setWishes([].concat(_toConsumableArray(wishes), [wish]));
     }
   }), /*#__PURE__*/_react.default.createElement(_WishList.default, {
-    wishes: wishes
+    wishes: wishes,
+    onWishesChange: setWishes
   }), /*#__PURE__*/_react.default.createElement("button", {
     className: "wish-clear",
-    type: "button"
+    type: "button",
+    onClick: function onClick() {
+      return setWishes(wishes.filter(function (wish) {
+        return !wish.done;
+      }));
+    }
   }, "Archive done"));
 };
 var _default = App;
@@ -30041,11 +30159,14 @@ exports.default = _default;
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
-var _reactDom = _interopRequireDefault(require("react-dom"));
+var _client = _interopRequireWildcard(require("react-dom/client"));
 var _App = _interopRequireDefault(require("./App"));
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-_reactDom.default.render( /*#__PURE__*/_react.default.createElement(_App.default, null), document.getElementById('root'));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./App":"App/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var root = (0, _client.createRoot)(document.getElementById('root'));
+root.render( /*#__PURE__*/_react.default.createElement(_App.default, null));
+},{"react":"../node_modules/react/index.js","react-dom/client":"../node_modules/react-dom/client.js","./App":"App/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -30070,7 +30191,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54521" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60811" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

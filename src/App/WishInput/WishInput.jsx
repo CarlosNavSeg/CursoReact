@@ -11,9 +11,9 @@ const WishInput = ( { onNewWish }) => {
         placeholder="Enter your wish here"
         value={newWishText}
         onChange={e => setNewWishText (e.target.value)} 
-        onKeyUp = {(e) => {
+        onKeyUp = {e => {
             if(e.key === 'Enter' && newWishText.length) {
-                onNewWish( { done: false, text: newWishText });
+                onNewWish( { done: false, text: newWishText } );
                 setNewWishText('');
             }
         }}
